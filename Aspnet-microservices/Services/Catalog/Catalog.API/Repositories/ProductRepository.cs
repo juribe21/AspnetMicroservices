@@ -12,7 +12,7 @@ namespace Catalog.API.Repositories
     {
         private readonly ICatalogContext _context;
 
-        private ProductRepository(ICatalogContext context)
+        public ProductRepository(ICatalogContext context)
         {
             _context = context;
         }
@@ -38,9 +38,17 @@ namespace Catalog.API.Repositories
         }
         public async Task<IEnumerable<Product>> GetProductByCategory(string category)
         {
-            FilterDefinition<Product> filter = Builders<Product>.Filter.ElemMatch(p => p.Category, category);
+            try
+            {
+                FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(p => p.Category, category);
 
-            return await _context.Products.Find(filter).ToListAsync();
+                return await _context.Products.Find(filter).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                string error = ex.Message;
+                return null;
+            }
         } 
 
         public async Task CreateProduct(Product product)
