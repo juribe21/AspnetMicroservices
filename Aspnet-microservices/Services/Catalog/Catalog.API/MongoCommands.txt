@@ -1,0 +1,38 @@
+﻿Start a mongo server instance
+$ docker run --name some-mongo -d mongo:tag
+
+------------------------------------------------------------------------
+
+Connect to MongoDB from another Docker container
+The MongoDB server in the image listens on the standard MongoDB port, 27017, so connecting via Docker networks
+will be the same as connecting to a remote mongod. The following example starts another MongoDB container instance
+and runs the mongo command line client against the original MongoDB container from the example above,
+allowing you to execute MongoDB statements against your database instance:
+
+$ docker run -it --network some-network --rm mongo mongo --host some-mongo test
+
+------------------------------------------------------------------------
+-- first is Local port number
+-- Second port is image port number
+
+docker run -d -p 27017:27017 --name shopping-mongodb mongo
+
+------------------------------------------------------------------------
+run instance - run  mongo container
+docker exec -it shopping-mongodb /bin/bash
+
+------------------------------------------------------------------------
+Create DB
+mongo to enter as mongo
+use [name of DB] -- use CatalogDB
+------------------------------------------------------------------------
+Create Collection
+db.createCollection('[NameOfCollection]') -- db.createCollection('Products')
+
+------------------------------------------------------------------------
+Show Dbs
+	show dbs
+List Information -- db.Products.find({}).pretty()
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
